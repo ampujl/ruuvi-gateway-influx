@@ -1,0 +1,32 @@
+{
+    "tag": {
+      "accelX": -1.02,
+      "accelY": 0.164,
+      "accelZ": 0.046,
+      "dataFormat": 3,
+      "defaultBackground": 1,
+      "favorite": true,
+      "gatewayUrl": "http://192.168.100.170:8080/write",
+      "humidity": 45.5,
+      "id": "D4:1F:EF:CF:53:76",
+      "measurementSequenceNumber": 0,
+      "movementCounter": 0,
+      "name": "HyperFresh",
+      "pressure": 1022.36,
+      "rawDataBlob": { "blob": ["Array"] },
+      "rssi": -92,
+      "temperature": -0.76,
+      "txPower": 0,
+      "updateAt": "2020-06-25T01:22:59+0300",
+      "voltage": 2.893
+    },
+    "batteryLevel": 46,
+    "deviceId": "af19a6f2-9edc-49c5-8d0d-d3e0c9717dd0",
+    "eventId": "706579eb-a2ef-47d0-9ba8-62f68de9a386",
+    "location": {
+      "accuracy": 2000,
+      "latitude": 60.14414414414414,
+      "longitude": 24.684215453915332
+    },
+    "time": "2020-06-25T01:22:58+0300"
+  }

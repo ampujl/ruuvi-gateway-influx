@@ -8,11 +8,13 @@ import * as _ from "lodash";
 exports.write = async (req: express.Request, res: express.Response): Promise<void> => {
 
     // check body type
-    if (!checkContentType(req, res)){
+    if (!checkContentType(req, res)) {
         return;
     }
 
-    let measurement: types.Measurement = req.body;
+    const measurement: types.Measurement = req.body;
+
+    console.log(measurement);
 
     const dbToken = (await getCredentials()).payload?.data?.toString();
 
@@ -35,21 +37,21 @@ exports.write = async (req: express.Request, res: express.Response): Promise<voi
     res.send("Done!");
 }
 
-function checkContentType(req: express.Request, res: express.Response): Boolean {
-    switch (req.get('content-type')) {
+const checkContentType = (req: express.Request, res: express.Response): boolean => {
+    switch (req.get("content-type")) {
         // '{"name":"John"}'
-        case 'application/json':
+        case "application/json":
             return true;
         // 'John', stored in a Buffer
-        case 'application/octet-stream':
+        case "application/octet-stream":
             res.status(400).send("Bad request!");
             return false;
         // 'John'
-        case 'text/plain':
+        case "text/plain":
             res.status(400).send("Bad request!");
             return false;
         // 'name=John' in the body of a POST request (not the URL)
-        case 'application/x-www-form-urlencoded':
+        case "application/x-www-form-urlencoded":
             res.status(400).send("Bad request!");
             return false;
         default:
@@ -58,7 +60,7 @@ function checkContentType(req: express.Request, res: express.Response): Boolean 
     }
 }
 
-async function getCredentials(): Promise<google.cloud.secretmanager.v1.IAccessSecretVersionResponse> {
+const getCredentials = async (): Promise<google.cloud.secretmanager.v1.IAccessSecretVersionResponse> => {
     const client = new SecretManagerServiceClient();
     const [accessResponse] = await client.accessSecretVersion({
         name: process.env.INFLUX_TOKEN,
@@ -66,13 +68,13 @@ async function getCredentials(): Promise<google.cloud.secretmanager.v1.IAccessSe
     return accessResponse;
 }
 
-export function processTag(tag: types.RuuviTag): Point {
+export const processTag = (tag: types.RuuviTag): Point => {
 
     // Adding dBbTags
     const id: string = tag.id
     const name: string = tag.name;
 
-    let dataFormat: string = "1";
+    let dataFormat = "1";
     if (tag.voltage) {
         dataFormat = "3";
     }
@@ -82,22 +84,22 @@ export function processTag(tag: types.RuuviTag): Point {
 
     // Creating point with dbTags
     let point = new Point("ruuvi_measurements")
-        .tag('mac', id)
+        .tag("mac", id)
         .tag("name", name)
         .tag("dataFormat", dataFormat);
 
     // Filter used keys
     _.difference(_.keys(tag), ["id", "name"]).map(function (key: string) {
 
-        const value: any = tag[key];
+        const value = tag[key];
         switch (typeof (value)) {
-            case 'number':
+            case "number":
                 point = point.floatField(key, value);
                 break;
-            case 'string':
+            case "string":
                 point = point.stringField(key, value);
                 break;
-            case 'boolean':
+            case "boolean":
                 point = point.booleanField(key, value);
                 break;
             default:
