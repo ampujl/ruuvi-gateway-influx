@@ -14,8 +14,6 @@ exports.write = async (req: express.Request, res: express.Response): Promise<voi
 
     const measurement: types.Measurement = req.body;
 
-    console.log(measurement);
-
     const dbToken = (await getCredentials()).payload?.data?.toString();
 
     const clientOptions: ClientOptions = {

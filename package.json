@@ -2,6 +2,8 @@
   "name": "ruuvi-station-gateway",
   "version": "0.0.1",
   "description": "Google Cloud Function for Ruuvi Station Gateway to InfluxDB",
+  "author": "Lauri Ampuja",
+  "license": "MIT",
   "main": "dist/index.js",
   "scripts": {
     "start:write": "functions-framework --target=write",
@@ -19,8 +21,6 @@
     "cloud",
     "functions"
   ],
-  "author": "Lauri Ampuja",
-  "license": "MIT",
   "engines": {
     "node": ">=10.0.0"
   },
