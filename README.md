@@ -13,10 +13,10 @@ I have meen tested function with setup:
 ## Get started
 Install node.js, typescript and Google Cloud SDK.
 
-InfluxDB you can use stand alone installations or free to use Saas for small amount of data [from] (https://cloud.influxdata.com/).
+InfluxDB you can use stand alone installations or free to use Saas for small amount of data [from](https://cloud.influxdata.com/).
 
-1. Setup [Google Cloud Functions] (https://cloud.google.com/functions/docs).
-2. Setup [Google Secret Manager] (https://cloud.google.com/secret-manager/docs) for credentials.
+1. Setup [Google Cloud Functions](https://cloud.google.com/functions/docs).
+2. Setup [Google Secret Manager](https://cloud.google.com/secret-manager/docs) for credentials.
 3. Clone repository with `git git@github.com:ampujl/ruuvi-gateway-influx.git`.
 4. Copy sample.env.yaml to .env.yaml .
 5. Run service localy `npm run start:write`.
