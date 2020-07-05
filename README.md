@@ -5,10 +5,10 @@ This is open source implementation for Ruuvi Station Gateway Google Cloud Functi
 
 I have meen tested function with setup:
 
-RuuviTag (sw v3 &v5)        (RyuuviTag sensor)
-> Ruuvi Station             (Ruuvi mobile app, android)
-> ruuvi-gateway-influx      (This)
-> InfluxDB 1.8              (Standalone installation in vm)
+    RuuviTag (sw v3 &v5)        (RyuuviTag sensor)
+    > Ruuvi Station             (Ruuvi mobile app, android)
+    > ruuvi-gateway-influx      (This)
+    > InfluxDB 1.8              (Standalone installation in vm)
 
 ## Get started
 Install node.js, typescript and Google Cloud SDK.
