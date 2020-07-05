@@ -13,7 +13,6 @@ exports.write = async (req: express.Request, res: express.Response): Promise<voi
     }
 
     const measurement: types.Measurement = req.body;
-
     const dbToken = (await getCredentials()).payload?.data?.toString();
 
     const clientOptions: ClientOptions = {
@@ -69,8 +68,8 @@ const getCredentials = async (): Promise<google.cloud.secretmanager.v1.IAccessSe
 export const processTag = (tag: types.RuuviTag): Point => {
 
     // Adding dBbTags
-    const id: string = tag.id
-    const name: string = tag.name;
+    const mac: string = tag.id
+    const name: string = tag.name ? tag.name : tag.id;
 
     let dataFormat = "1";
     if (tag.voltage) {
@@ -82,7 +81,7 @@ export const processTag = (tag: types.RuuviTag): Point => {
 
     // Creating point with dbTags
     let point = new Point("ruuvi_measurements")
-        .tag("mac", id)
+        .tag("mac", mac)
         .tag("name", name)
         .tag("dataFormat", dataFormat);
 

@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "test": "jest",
-    "coverage": "jest --coverage",
+    "test:coverage": "jest --coverage",
     "clean": "rimraf ./dist",
     "gcp-build": "tsc -p .",
     "build": "npm run clean && tsc -p .",
