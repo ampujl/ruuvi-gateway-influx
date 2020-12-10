@@ -4,6 +4,7 @@ import { google } from "@google-cloud/secret-manager/build/protos/protos";
 import { InfluxDB, ClientOptions, Point, WritePrecision } from "@influxdata/influxdb-client";
 import { SecretManagerServiceClient } from "@google-cloud/secret-manager";
 import * as _ from "lodash";
+import * as ngeohash from "ngeohash";
 
 exports.write = async (req: express.Request, res: express.Response): Promise<void> => {
 
@@ -23,7 +24,8 @@ exports.write = async (req: express.Request, res: express.Response): Promise<voi
     const writeApi = new InfluxDB(clientOptions).getWriteApi(process.env.INFLUX_ORG as string, process.env.INFLUX_BUCKET as string, WritePrecision.ns);
 
     const tags = measurement.tags ? measurement.tags as types.RuuviTag[] : [measurement.tag] as types.RuuviTag[];
-    const points = tags.map(t => processTag(t));
+    const points = tags.map(t => processTag(t, measurement.location));
+
 
     // Write points
     writeApi.writePoints(points);
@@ -65,7 +67,7 @@ const getCredentials = async (): Promise<google.cloud.secretmanager.v1.IAccessSe
     return accessResponse;
 }
 
-export const processTag = (tag: types.RuuviTag): Point => {
+export const processTag = (tag: types.RuuviTag, location: types.Location): Point => {
 
     // Adding dBbTags
     const mac: string = tag.id
@@ -86,24 +88,30 @@ export const processTag = (tag: types.RuuviTag): Point => {
         .tag("dataFormat", dataFormat);
 
     // Filter used keys
-    _.difference(_.keys(tag), ["id", "name"]).map(function (key: string) {
-
-        const value = tag[key];
-        switch (typeof (value)) {
-            case "number":
-                point = point.floatField(key, value);
-                break;
-            case "string":
-                point = point.stringField(key, value);
-                break;
-            case "boolean":
-                point = point.booleanField(key, value);
-                break;
-            default:
-                break;
+    _.difference(_.keys(tag), ["id", "name"]).map(
+        function (key: string) {
+            const value = tag[key];
+            switch (typeof (value)) {
+                case "number":
+                    point = point.floatField(key, value);
+                    break;
+                case "string":
+                    point = point.stringField(key, value);
+                    break;
+                case "boolean":
+                    point = point.booleanField(key, value);
+                    break;
+                default:
+                    break;
+            }
         }
-    });
+    );
 
+    const geohash = ngeohash.encode(location.latitude, location.longitude, 9);
+    point.floatField("accuracy", location.accuracy);
+    point.floatField("latitude", location.latitude);
+    point.floatField("longitude", location.longitude);
+    point.stringField("geohash", geohash);
+    
     return point;
 }
-

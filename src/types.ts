@@ -4,6 +4,7 @@ export type Measurement = {
     tags?: RuuviTag[]
     tag?: RuuviTag;
     eventId: string;   // UUID for this request
+    location: Location;
 }
 export type RuuviTag = {
     [key: string]: any; //indexer
@@ -27,4 +28,11 @@ export type RuuviTag = {
     txPower?: number;
     movementCounter?: number;
     measurementSequenceNumber?: number;
+}
+export type Location = {
+    
+    // extras: location
+    accuracy: number;
+    latitude: number;
+    longitude: number;
 }
