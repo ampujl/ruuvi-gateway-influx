@@ -3,7 +3,7 @@ Ruuvi Station gateway implementation for storing data to InfluxDB with typescrip
 
 This is open source implementation for Ruuvi Station Gateway Google Cloud Function that pushes measurements to InfluxDB 1.8+ and 2.0+.
 
-I have meen tested function with setup:
+I have been tested function with setup:
 
     RuuviTag (sw v3 &v5)        (RyuuviTag sensor)
     > Ruuvi Station             (Ruuvi mobile app, android)
